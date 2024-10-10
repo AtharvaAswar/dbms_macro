@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: url('background-image.jpg') no-repeat center center fixed;
+    /* Change to your image path */
+    background-size: cover;
+    color: #333;
+}
+
+header {
+    background-color: #d32f2f;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    text-decoration: none;
+    /* Remove underline for anchor */
+    background-color: #d32f2f;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #b71c1c;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #d32f2f;
+    border-radius: 5px;
+    width: 60%;
+}
+
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+    /* Center the table wrapper */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    /* Make table take full width */
+    margin-top: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #d32f2f;
+    /* Border for table */
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #d32f2f;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #ffe6e6;
+    /* Alternating row colors */
+}

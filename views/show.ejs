@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Record</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-preview {
+            width: 200px;
+            height: 200px;
+            margin-right: 20px;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 2px solid #000;
+        }
+
+        .details {
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: #d32f2f;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #d32f2f;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #b71c1c;
+        }
+
+        .back-btn {
+            background-color: #1976d2;
+        }
+
+        .btn2 {
+            background-color: green;
+        }
+
+        .btn2:hover {
+            background-color: darkgreen;
+        }
+
+        .btn3 {
+            background-color: red;
+        }
+
+        .back-btn:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Donor Details</h1>
+    </header>
+
+    <div class="container">
+        <div class="image-preview">
+            <img src="data:<%= info.image.contentType %>;base64,<%= info.image.data.toString('base64') %>"
+                alt="Image Preview" />
+        </div>
+
+        <div class="details">
+            <h2>Personal Details</h2>
+            <p><strong>First Name:</strong>
+                <%= info.first_name %>
+            </p>
+            <p><strong>Last Name:</strong>
+                <%= info.last_name %>
+            </p>
+            <p><strong>Age:</strong>
+                <%= info.age %>
+            </p>
+            <p><strong>Gender:</strong>
+                <%= info.gender %>
+            </p>
+
+            <h2>Address Details</h2>
+            <p><strong>State:</strong>
+                <%= info.state %>
+            </p>
+            <p><strong>District:</strong>
+                <%= info.district %>
+            </p>
+
+            <h2>Blood Group</h2>
+            <p><strong>Blood Group:</strong>
+                <%= info.blood_grp %>
+            </p>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <a href="/home" class="btn back-btn btn1">Home</a>
+        <a href="/update/<%= info._id %>" class="btn btn2">Update</a>
+        <a href="/delete/<%= info._id %>" class="btn btn3">Delete</a>
+    </div>
+</body>
+
+</html>

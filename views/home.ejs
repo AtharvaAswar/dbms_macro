@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Center</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="home.css">
+
+    <style>
+        /* Custom styling for the search bar */
+        .search-group {
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .input-group {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .input-group select {
+            border: none;
+            box-shadow: none;
+        }
+
+        .input-group .btn {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        .input-group .btn:hover {
+            background-color: #ff3333;
+        }
+
+        /* Custom styling for the Add button */
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+            margin-right: 20px;
+        }
+
+        .add-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Align Add button and search bar in the same row */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="text-center mt-4">Gokhale Blood Bank</h1>
+    </header>
+
+    <div class="container mt-5">
+        <div class="controls">
+            <!-- Add button -->
+            <a href="/new" class="btn add-btn">Add</a>
+
+            <!-- Search bar -->
+            <div class="search-group">
+                <form action="/find" method="GET">
+                    <div class="input-group">
+                        <select name="blood_grp" class="form-control" required>
+                            <option value="" disabled selected>Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-danger">Find</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="table-wrapper mt-5">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Sr. no.</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Blood Group</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let info of infos) { %>
+                        <tr>
+                            <td>
+                                <%= infos.indexOf(info) + 1 %>
+                            </td>
+                            <td><a href="/show/<%= info._id %>">
+                                    <%= info.first_name %>
+                                </a></td>
+                            <td>
+                                <%= info.last_name %>
+                            </td>
+                            <td>
+                                <%= info.blood_grp %>
+                            </td>
+                            <td>
+                                <%= info.district %>
+                            </td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

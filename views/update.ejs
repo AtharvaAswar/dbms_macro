@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Record</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            /* Adjusted for cleaner layout */
+            align-items: flex-start;
+            max-width: 100%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .image-preview {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .select-img-btn {
+            margin-top: 10px;
+        }
+
+        .personal-details,
+        .address-details {
+            width: 300px;
+        }
+
+        h3 {
+            color: #d32f2f;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #d32f2f;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #d32f2f;
+            outline: none;
+        }
+
+        .blood-group-section {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            /* Center the buttons */
+            margin-top: 20px;
+            gap: 20px;
+            /* Add space between buttons */
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #d32f2f;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #b71c1c;
+        }
+
+        .clear-btn {
+            background-color: green;
+        }
+
+        .clear-btn:hover {
+            background-color: darkgreen;
+        }
+
+        .back-btn {
+            background-color: blue;
+        }
+
+        .back-btn:hover {
+            background-color: darkblue;
+        }
+    </style>
+    <script>
+        function selectImage() {
+            document.getElementById("imageUpload").click();
+        }
+
+        function displayImage(event) {
+            const preview = document.getElementById("imagePreview");
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function clearForm() {
+            const form = document.getElementById("recordForm");
+            form.reset(); // Reset the form fields
+            document.getElementById("imagePreview").style.display = 'none'; // Hide the image preview
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Update Donor</h1>
+    </header>
+
+    <form id="recordForm" method="POST" action="/update/<%= info._id %>" enctype="multipart/form-data">
+        <div class="container">
+            <div class="preview-section">
+                <div class="image-preview">
+                    <img id="imagePreview"
+                        src="data:<%= info.image.contentType %>;base64,<%= info.image.data.toString('base64') %>"
+                        alt="Image Preview"
+                        style="display: block; width: 100%; height: 100%; object-fit: cover; border: 2px solid #000;">
+                </div>
+                <button type="button" class="btn select-img-btn" onclick="selectImage()">Select Image</button>
+                <input type="file" id="imageUpload" name="imageUpload" style="display: none;" accept="image/*"
+                    onchange="displayImage(event)"> <!-- Ensure input has a name -->
+            </div>
+
+            <div class="personal-details">
+                <h3>Personal Details</h3>
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" value="<%= info.first_name %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" value="<%= info.last_name %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" value="<%= info.age %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="Male" <%=info.gender==='Male' ? 'selected' : '' %>>Male</option>
+                        <option value="Female" <%=info.gender==='Female' ? 'selected' : '' %>>Female</option>
+                        <option value="Other" <%=info.gender==='Other' ? 'selected' : '' %>>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Blood Group Section -->
+            <div class="blood-group-section">
+                <h3>Blood Group</h3>
+                <div class="form-group">
+                    <label for="blood_grp">Blood Group:</label>
+                    <select id="blood_grp" name="blood_grp" required>
+                        <option value="A+" <%=info.blood_grp==='A+' ? 'selected' : '' %>>A+</option>
+                        <option value="A-" <%=info.blood_grp==='A-' ? 'selected' : '' %>>A-</option>
+                        <option value="B+" <%=info.blood_grp==='B+' ? 'selected' : '' %>>B+</option>
+                        <option value="B-" <%=info.blood_grp==='B-' ? 'selected' : '' %>>B-</option>
+                        <option value="AB+" <%=info.blood_grp==='AB+' ? 'selected' : '' %>>AB+</option>
+                        <option value="AB-" <%=info.blood_grp==='AB-' ? 'selected' : '' %>>AB-</option>
+                        <option value="O+" <%=info.blood_grp==='O+' ? 'selected' : '' %>>O+</option>
+                        <option value="O-" <%=info.blood_grp==='O-' ? 'selected' : '' %>>O-</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Buttons Section -->
+            <div class="buttons">
+                <a href="/home" class="btn back-btn">Home</a>
+                <button type="button" class="btn clear-btn" onclick="clearForm()">Clear</button>
+                <button type="submit" class="btn add-btn">Update</button>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+    <header>
+        <h1>Search Results for Blood Group: <%= blood_grp %>
+        </h1>
+    </header>
+
+    <div class="container">
+        <div class="controls">
+            <a href="/home" class="btn btn-secondary">Back to Home</a>
+        </div>
+
+        <div class="table-wrapper">
+            <% if (infos.length> 0) { %>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sr. no.</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Blood Group</th>
+                            <th>City</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let info of infos) { %>
+                            <tr>
+                                <td>
+                                    <%= infos.indexOf(info) + 1 %>
+                                </td>
+                                <td><a href="/show/<%= info._id %>">
+                                        <%= info.first_name %>
+                                    </a></td>
+                                <td>
+                                    <%= info.last_name %>
+                                </td>
+                                <td>
+                                    <%= info.blood_grp %>
+                                </td>
+                                <td>
+                                    <%= info.district %>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <p>No results found for the selected blood group.</p>
+                    <% } %>
+        </div>
+    </div>
+</body>
+
+</html>
