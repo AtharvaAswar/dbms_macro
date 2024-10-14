@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const infoSchema = new mongoose.Schema({
-
     first_name: {
         type: String,
         required: true
@@ -12,7 +11,7 @@ const infoSchema = new mongoose.Schema({
     },
 
     image: {
-        data: Buffer,
+        data: String,
         contentType: String
     },
 

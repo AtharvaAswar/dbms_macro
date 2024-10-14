@@ -11,36 +11,31 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
-// Configure multer for file uploads
-const storage = multer.memoryStorage(); // Store images in memory
-const upload = multer({ storage: storage });
+const upload = multer({ dest: 'public/pictures/' });
 
+// Connect to MongoDB
 main().catch(err => console.log(err));
 
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1/bloodBank');
 }
 
-//info1.save().then(res => console.log(res));
-
-app.get("/", (req, res) => {
-    res.send("ok");
-});
-
-// Index Route
+// Home Route
 app.get("/home", async (req, res) => {
     let infos = await Info.find();
     res.render("home.ejs", { infos });
 });
 
-// new form route
+// New Form Route
 app.get("/new", (req, res) => {
     res.render("new.ejs");
 });
 
-// new route
+// Create Route
 app.post("/new", upload.single("imageUpload"), async (req, res) => {
     try {
+        const imagePath = `/pictures/${req.file.filename}`;
+
         const newInfo = new Info({
             first_name: req.body.first_name,
             last_name: req.body.last_name,
@@ -50,10 +45,11 @@ app.post("/new", upload.single("imageUpload"), async (req, res) => {
             district: req.body.district,
             blood_grp: req.body.blood_grp,
             image: {
-                data: req.file.buffer,
+                data: imagePath,
                 contentType: req.file.mimetype
             }
         });
+
         await newInfo.save();
         console.log("Data saved successfully:", newInfo);
         res.redirect("/home");
@@ -63,16 +59,15 @@ app.post("/new", upload.single("imageUpload"), async (req, res) => {
     }
 });
 
-// show route
+// Show Record Route
 app.get("/show/:id", async (req, res) => {
     const record = await Info.findById(req.params.id);
     res.render("show.ejs", { info: record });
 });
 
-// find route
+// Find Route (by blood group)
 app.get('/find', async (req, res) => {
     const blood_grp = req.query.blood_grp;
-
     try {
         const infos = await Info.find({ blood_grp: blood_grp });
         res.render('find', { blood_grp, infos });
@@ -82,13 +77,13 @@ app.get('/find', async (req, res) => {
     }
 });
 
-// update form route
+// Update Form Route
 app.get("/update/:id", async (req, res) => {
     const record = await Info.findById(req.params.id);
     res.render("update.ejs", { info: record });
 });
 
-// update route
+// Update Data Route
 app.post("/update/:id", upload.single("imageUpload"), async (req, res) => {
     const { id } = req.params;
     const { first_name, last_name, age, gender, blood_grp } = req.body;
@@ -102,16 +97,14 @@ app.post("/update/:id", upload.single("imageUpload"), async (req, res) => {
             blood_grp
         };
 
-        // If an image is uploaded, add it to the updated data
         if (req.file) {
             updatedData.image = {
-                data: req.file.buffer,
+                data: `/pictures/${req.file.filename}`,
                 contentType: req.file.mimetype
             };
         }
 
         await Info.findByIdAndUpdate(id, updatedData, { new: true });
-
         res.redirect(`/show/${id}`);
     } catch (error) {
         console.error("Error updating record:", error);
@@ -119,12 +112,13 @@ app.post("/update/:id", upload.single("imageUpload"), async (req, res) => {
     }
 });
 
-// delete route
+// Delete Route
 app.get("/delete/:id", async (req, res) => {
     await Info.findByIdAndDelete(req.params.id);
     res.redirect("/home");
 });
 
+// Server Listen
 app.listen(3000, () => {
-    console.log("app is listening on port 3000");
+    console.log("App is listening on port 3000");
 });

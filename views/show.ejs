@@ -111,8 +111,7 @@
 
     <div class="container">
         <div class="image-preview">
-            <img src="data:<%= info.image.contentType %>;base64,<%= info.image.data.toString('base64') %>"
-                alt="Image Preview" />
+            <img src="<%= info.image.data %>" alt="Image Preview" />
         </div>
 
         <div class="details">
